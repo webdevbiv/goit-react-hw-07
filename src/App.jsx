@@ -6,14 +6,23 @@ import ContactList from './components/ContactList/ContactList';
 import SearchBox from './components/SearchBox/SearchBox';
 
 import { setNameFilter } from './redux/filtersSlice';
-import { selectFilteredContacts } from './redux/selectors';
+import {
+  selectContacts,
+  selectError,
+  selectFilteredContacts,
+  selectLoading,
+  selectNameFilter,
+} from './redux/selectors';
 import { useEffect } from 'react';
-import { fetchContacts } from './redux/contactsOps';
+import { addContact, deleteContact, fetchContacts } from './redux/contactsOps';
+import { FadeLoader } from 'react-spinners';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(selectContacts);
   const filteredContacts = useSelector(selectFilteredContacts);
-  const userSearch = useSelector(state => state.filters.name);
+  const userSearch = useSelector(selectNameFilter);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,10 +62,17 @@ const App = () => {
         onSubmit={handleNewContact}
       />
       <SearchBox value={userSearch} onChange={handleUserSearch} />
-      <ContactList
-        contacts={filteredContacts}
-        onDeleteContact={handleDeleteContact}
-      />
+      {loading && <FadeLoader />}
+      {error && <p>{error}</p>}
+      {contacts.length > 0 && <p>Total contacts: {contacts.length}</p>}
+
+      {contacts.length > 0 && (
+        <ContactList
+          contacts={filteredContacts}
+          onDeleteContact={handleDeleteContact}
+        />
+      )}
+      {contacts.length === 0 && <p>No contacts found.</p>}
     </>
   );
 };
