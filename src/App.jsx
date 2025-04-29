@@ -5,15 +5,20 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import SearchBox from './components/SearchBox/SearchBox';
 
-import { addContact, deleteContact } from './redux/contactsSlice';
 import { setNameFilter } from './redux/filtersSlice';
 import { selectFilteredContacts } from './redux/selectors';
+import { useEffect } from 'react';
+import { fetchContacts } from './redux/contactsOps';
 
 const App = () => {
   const contacts = useSelector(state => state.contacts.items);
   const filteredContacts = useSelector(selectFilteredContacts);
   const userSearch = useSelector(state => state.filters.name);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const handleUserSearch = e => {
     dispatch(setNameFilter(e.target.value));
