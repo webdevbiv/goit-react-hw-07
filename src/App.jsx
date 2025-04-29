@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ContactForm from './components/ContactForm/ContactForm';
