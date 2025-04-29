@@ -45,8 +45,7 @@ const App = () => {
       return;
     }
 
-    const newContact = { ...values, id: nanoid() };
-    dispatch(addContact(newContact));
+    dispatch(addContact(values));
     resetForm();
   };
 
