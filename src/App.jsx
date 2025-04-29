@@ -64,8 +64,8 @@ const App = () => {
       <SearchBox value={userSearch} onChange={handleUserSearch} />
       {loading && <FadeLoader />}
       {error && <p>{error}</p>}
-      {contacts.length > 0 && <p>Total contacts: {contacts.length}</p>}
       {contacts.length === 0 && <p>No contacts found.</p>}
+      {contacts.length > 0 && <p>Total contacts: {contacts.length}</p>}
       {contacts.length > 0 && (
         <ContactList
           contacts={filteredContacts}
